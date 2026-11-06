@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coming Soon | Shivkrupa Electricals</title>
+  <meta name="description" content="Shivkrupa Electricals website launches on 10 November 2026. Control panels, electrical supply and fire-fighting systems.">
+  <meta name="theme-color" content="#0b0f17">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Strict no-cache: this page must never be stored -->
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, s-maxage=0">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Surrogate-Control" content="no-store">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Coming Soon | Shivkrupa Electricals">
+  <meta property="og:description" content="Our new website goes live on 10 November 2026.">
+
+  <link rel="icon" type="image/png" href="assets/logo-mark.png?v=20261110">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink-950: #0b0f17;
+      --ink-900: #111723;
+      --ink-800: #1a2230;
+      --ink-400: #9aa1ad;
+      --ink-300: #c9cdd4;
+      --white: #ffffff;
+      --accent: #e06322;
+      --accent-on-dark: #f08a52;
+      --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
+      --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      font-family: var(--font-sans);
+      color: var(--ink-300);
+      background: var(--ink-950);
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    img { display: block; max-width: 100%; height: auto; }
+    a { color: inherit; text-decoration: none; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+    .page {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: clamp(1.5rem, 4vw, 3rem) clamp(1.25rem, 4vw, 2.5rem);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page::before {
+      content: "";
+      position: absolute;
+      inset: auto -20% -30% 20%;
+      height: 55%;
+      background: radial-gradient(ellipse at center, rgba(224, 99, 34, 0.16), transparent 65%);
+      pointer-events: none;
+    }
+
+    .wrap {
+      position: relative;
+      width: min(720px, 100%);
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.85rem;
+      width: 100%;
+      margin-bottom: 2.5rem;
+    }
+
+    .brand img {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+    }
+
+    .brand-text { text-align: left; line-height: 1.05; }
+    .brand-name {
+      display: block;
+      font-family: var(--font-display);
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      font-size: 0.95rem;
+      color: var(--white);
+    }
+    .brand-sub {
+      display: block;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.22em;
+      color: var(--accent-on-dark);
+      margin-top: 0.2rem;
+    }
+
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      width: 100%;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent-on-dark);
+      margin-bottom: 1.25rem;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 1.75rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: clamp(2.6rem, 8vw, 4.6rem);
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      color: var(--white);
+      margin-bottom: 1rem;
+    }
+
+    .lead {
+      font-size: 1.05rem;
+      line-height: 1.65;
+      max-width: 38rem;
+      margin: 0 auto 2.25rem;
+    }
+
+    .date {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--white);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      padding: 0.7rem 1.1rem;
+      margin: 0 auto 2.25rem;
+    }
+
+    .countdown {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 0.75rem;
+      max-width: 28rem;
+      margin: 0 auto 2.75rem;
+    }
+
+    .unit {
+      background: var(--ink-900);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 1rem 0.4rem 0.85rem;
+    }
+
+    .unit strong {
+      display: block;
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 5vw, 2.15rem);
+      color: var(--white);
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .unit span {
+      display: block;
+      margin-top: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink-400);
+    }
+
+    .contacts {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem 1.5rem;
+      font-size: 0.92rem;
+    }
+
+    .contacts a { color: var(--white); transition: color 0.2s ease; }
+    .contacts a:hover { color: var(--accent-on-dark); }
+
+    footer {
+      padding: 1.1rem var(--gutter, 1.25rem);
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: var(--ink-400);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 520px) {
+      .countdown { gap: 0.5rem; }
+      .unit { padding: 0.85rem 0.25rem 0.7rem; }
+      .contacts { flex-direction: column; gap: 0.55rem; }
+    }
+  </style>
+
+  <script>
+    /* PAGE_VERSION: bump this string whenever this file changes */
+    window.SK_PAGE_VERSION = "2026-11-10-cs-2";
+
+    (function () {
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.getRegistrations().then(function (regs) {
+          regs.forEach(function (r) { r.unregister(); });
+        });
+      }
+      if (window.caches) {
+        caches.keys().then(function (keys) {
+          keys.forEach(function (k) { caches.delete(k); });
+        });
+      }
+      window.addEventListener("pageshow", function (e) {
+        if (e.persisted) location.reload();
+      });
+    })();
+  </script>
+</head>
+<body>
+  <main class="page">
+    <div class="wrap">
+      <div class="brand">
+        <img src="assets/logo-mark-light.png?v=20261110" alt="Shivkrupa Electricals">
+        <span class="brand-text">
+          <span class="brand-name">SHIVKRUPA</span>
+          <span class="brand-sub">ELECTRICALS</span>
+        </span>
+      </div>
+
+      <p class="eyebrow">Website launch</p>
+      <h1>Coming soon</h1>
+      <p class="lead">We are preparing our new site for control panels, electrical supply and turnkey fire-fighting systems.</p>
+      <p class="date">Goes live 10 November 2026</p>
+
+      <div class="countdown" aria-label="Time remaining until launch">
+        <div class="unit"><strong id="d">00</strong><span>Days</span></div>
+        <div class="unit"><strong id="h">00</strong><span>Hours</span></div>
+        <div class="unit"><strong id="m">00</strong><span>Minutes</span></div>
+        <div class="unit"><strong id="s">00</strong><span>Seconds</span></div>
+      </div>
+
+      <div class="contacts">
+        <a href="tel:+919422328247">+91 94223 28247</a>
+        <a href="tel:+919922567097">+91 99225 67097</a>
+        <a href="mailto:shivkrupa.electricals@gmail.com">shivkrupa.electricals@gmail.com</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>Shivkrupa Electricals · Pune · Est. 2002</footer>
+
+  <script>
+    (function () {
+      var target = new Date("2026-11-10T00:00:00+05:30").getTime();
+      var ids = ["d", "h", "m", "s"];
+      function pad(n) { return n < 10 ? "0" + n : String(n); }
+      function tick() {
+        var diff = Math.max(0, target - Date.now());
+        var day = Math.floor(diff / 86400000);
+        var hr = Math.floor((diff % 86400000) / 3600000);
+        var min = Math.floor((diff % 3600000) / 60000);
+        var sec = Math.floor((diff % 60000) / 1000);
+        var vals = [pad(day), pad(hr), pad(min), pad(sec)];
+        for (var i = 0; i < 4; i++) {
+          var el = document.getElementById(ids[i]);
+          if (el) el.textContent = vals[i];
+        }
+      }
+      tick();
+      setInterval(tick, 1000);
+    })();
+  </script>
+</body>
+</html>
