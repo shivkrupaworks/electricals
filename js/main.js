@@ -317,29 +317,103 @@ function initLightbox() {
   });
 }
 
-/* Quote form ------------------------------------------------------------- */
+/* Quote modal ------------------------------------------------------------ */
 function initQuoteForm() {
-  const form = document.getElementById("quoteForm");
-  if (!form) return;
-
-  const select = form.querySelector("#productSelect");
-  const preset = new URLSearchParams(window.location.search).get("product");
-  if (preset && select) {
-    const want = preset.toLowerCase();
-    for (const opt of select.options) {
-      const keys = (opt.dataset.match || "").split("|").filter(Boolean);
-      if (keys.some((k) => want.includes(k))) {
-        opt.selected = true;
-        break;
-      }
-    }
+  /* ── Build the overlay + dialog if not already in DOM ── */
+  if (!document.getElementById("quoteModal")) {
+    const overlay = document.createElement("div");
+    overlay.id        = "quoteModal";
+    overlay.className = "quote-overlay";
+    overlay.setAttribute("role", "dialog");
+    overlay.setAttribute("aria-modal", "true");
+    overlay.setAttribute("aria-labelledby", "qmTitle");
+    overlay.innerHTML = `
+      <div class="quote-dialog" id="quoteDialog">
+        <div class="quote-dialog-header">
+          <h2 id="qmTitle">Request a Quote</h2>
+          <p>Fill in the details below and our team will get back to you shortly.</p>
+        </div>
+        <button class="quote-dialog-close" id="qmClose" type="button" aria-label="Close">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>
+        </button>
+        <div class="quote-dialog-body">
+          <form id="quoteModalForm" novalidate>
+            <div class="qf-row">
+              <label for="qm_name">Name <span aria-hidden="true">*</span></label>
+              <input id="qm_name" name="name" type="text" placeholder="Your full name" required autocomplete="name">
+            </div>
+            <div class="qf-row">
+              <label for="qm_phone">Contact Number <span aria-hidden="true">*</span></label>
+              <input id="qm_phone" name="phone" type="tel" placeholder="+91 XXXXX XXXXX" required autocomplete="tel">
+            </div>
+            <div class="qf-row">
+              <label for="qm_whatsapp">WhatsApp Number <span aria-hidden="true">*</span></label>
+              <input id="qm_whatsapp" name="whatsapp" type="tel" placeholder="+91 XXXXX XXXXX" required autocomplete="tel">
+            </div>
+            <div class="qf-row">
+              <label for="qm_location">Location <span aria-hidden="true">*</span></label>
+              <input id="qm_location" name="location" type="text" placeholder="City / Area" required autocomplete="address-level2">
+            </div>
+            <div class="qf-row">
+              <label for="qm_purpose">Purpose of Enquiry <span aria-hidden="true">*</span></label>
+              <textarea id="qm_purpose" name="purpose" rows="3" placeholder="Describe what you need…" required></textarea>
+            </div>
+            <div id="qmFeedback" class="qf-feedback" role="alert"></div>
+            <div class="qf-actions">
+              <button type="submit" class="btn btn-primary btn-lg">Submit Request</button>
+            </div>
+          </form>
+        </div>
+      </div>`;
+    document.body.appendChild(overlay);
   }
 
-  const feedback = document.getElementById("formFeedback");
+  const overlay = document.getElementById("quoteModal");
+  const form    = document.getElementById("quoteModalForm");
+  const feedback = document.getElementById("qmFeedback");
+  let lastFocus  = null;
 
+  /* ── Open / close ── */
+  const openModal = () => {
+    lastFocus = document.activeElement;
+    overlay.classList.add("open");
+    lockScroll(true);
+    form.reset();
+    feedback.className = "qf-feedback";
+    feedback.textContent = "";
+    form.querySelectorAll(".invalid").forEach((f) => f.classList.remove("invalid"));
+    overlay.querySelector("#qm_name").focus();
+  };
+
+  const closeModal = () => {
+    overlay.classList.remove("open");
+    lockScroll(false);
+    if (lastFocus) lastFocus.focus();
+  };
+
+  /* ── Wire every "Request a quote" / "Request quotation" button ── */
+  document.querySelectorAll("a[href='contact.html'].btn, a[href='contact.html'].btn-primary").forEach((link) => {
+    const label = link.textContent.trim().toLowerCase();
+    if (label.includes("quote") || label.includes("quotation")) {
+      link.addEventListener("click", (e) => {
+        e.preventDefault();
+        openModal();
+      });
+    }
+  });
+
+  /* ── Close on backdrop click / Escape / close button ── */
+  document.getElementById("qmClose").addEventListener("click", closeModal);
+  overlay.addEventListener("click", (e) => { if (e.target === overlay) closeModal(); });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && overlay.classList.contains("open")) closeModal();
+  });
+
+  /* ── Form submission ── */
   form.addEventListener("submit", (e) => {
     e.preventDefault();
 
+    /* Validate required fields */
     const required = Array.from(form.querySelectorAll("[required]"));
     let firstInvalid = null;
     required.forEach((f) => {
@@ -347,42 +421,58 @@ function initQuoteForm() {
       f.classList.toggle("invalid", bad);
       if (bad && !firstInvalid) firstInvalid = f;
     });
-
     if (firstInvalid) {
-      feedback.textContent = "Please fill in your name, mobile number and requirement category.";
-      feedback.classList.add("show");
+      feedback.textContent = "Please fill in all required fields.";
+      feedback.className   = "qf-feedback error show";
       firstInvalid.focus();
       return;
     }
 
-    const data = new FormData(form);
-    const lines = [
-      "Enquiry from shivkrupa electricals website",
+    const data     = new FormData(form);
+    const name     = data.get("name").trim();
+    const phone    = data.get("phone").trim();
+    const whatsapp = data.get("whatsapp").trim();
+    const location = data.get("location").trim();
+    const purpose  = data.get("purpose").trim();
+
+    /* Build email body */
+    const subject = `Quote Request from ${name} — Shivkrupa Electricals`;
+    const body = [
+      "New Quote Request — Shivkrupa Electricals Website",
+      "=".repeat(48),
       "",
-      `Name: ${data.get("name")}`,
-      data.get("company") ? `Company: ${data.get("company")}` : null,
-      `Mobile: ${data.get("phone")}`,
-      data.get("email") ? `Email: ${data.get("email")}` : null,
-      `Requirement: ${data.get("product")}`,
-      data.get("message") ? `Details: ${data.get("message")}` : null
-    ].filter((l) => l !== null);
-    const text = lines.join("\n");
+      `Name              : ${name}`,
+      `Contact Number    : ${phone}`,
+      `WhatsApp Number   : ${whatsapp}`,
+      `Location          : ${location}`,
+      `Purpose of Enquiry: ${purpose}`,
+      "",
+      "—",
+      "This enquiry was submitted via the Request a Quote form on shivkrupa electricals website."
+    ].join("\n");
 
-    const channel = e.submitter && e.submitter.dataset.channel === "email" ? "email" : "whatsapp";
+    /* Open mailto: so the browser/email client sends it */
+    window.location.href =
+      `mailto:${CONTACT.email}` +
+      `?subject=${encodeURIComponent(subject)}` +
+      `&body=${encodeURIComponent(body)}`;
 
-    if (channel === "email") {
-      const subject = `Quotation request: ${data.get("product")}`;
-      window.location.href = `mailto:${CONTACT.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(text)}`;
-      feedback.textContent = "Your email app should open with the enquiry filled in. Press send there to reach our team.";
-    } else {
-      window.open(`https://wa.me/${CONTACT.whatsapp}?text=${encodeURIComponent(text)}`, "_blank", "noopener");
-      feedback.textContent = "WhatsApp opened in a new tab with your enquiry filled in. Press send there to reach our team.";
-    }
-    feedback.classList.add("show");
+    /* Show confirmation inside the modal */
+    form.style.display = "none";
+    feedback.textContent =
+      "Thank you for your request! Our team member will connect with you shortly.";
+    feedback.className = "qf-feedback success show";
+
+    /* Reset form after a moment for re-use */
+    setTimeout(() => {
+      form.style.display = "";
+      closeModal();
+    }, 4500);
   });
 
+  /* Clear invalid state on input */
   form.querySelectorAll("[required]").forEach((f) => {
-    f.addEventListener("input", () => f.classList.remove("invalid"));
+    f.addEventListener("input",  () => f.classList.remove("invalid"));
     f.addEventListener("change", () => f.classList.remove("invalid"));
   });
 }
