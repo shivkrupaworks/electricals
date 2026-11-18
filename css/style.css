@@ -1032,6 +1032,150 @@ p { color: var(--ink-600); font-size: 1.02rem; }
 .brand-grid-compact .brand-tile { padding: 1.5rem 1.25rem; }
 .brand-grid-compact .brand-logo { height: 70px; margin-bottom: 1rem; }
 
+/* Brand text fallback (when logo image missing) */
+.brand-text-logo {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--ink-900);
+  letter-spacing: 0.03em;
+}
+
+/* =========================================================================
+   QUOTE MODAL OVERLAY
+   ========================================================================= */
+.quote-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(11, 15, 23, 0.72);
+  backdrop-filter: blur(4px);
+  padding: 1.5rem;
+}
+.quote-overlay.open { display: flex; }
+
+.quote-dialog {
+  background: var(--white);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 540px;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  animation: qd-in 0.22s var(--ease) both;
+}
+@keyframes qd-in {
+  from { opacity: 0; transform: translateY(20px) scale(0.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+.quote-dialog-header {
+  padding: 2rem 2rem 0;
+}
+.quote-dialog-header h2 {
+  font-size: 1.35rem;
+  margin: 0 0 0.3rem;
+  color: var(--ink-900);
+}
+.quote-dialog-header p {
+  font-size: 0.88rem;
+  color: var(--ink-600);
+  margin: 0;
+}
+
+.quote-dialog-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--ink-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  transition: background var(--t) var(--ease), color var(--t) var(--ease);
+}
+.quote-dialog-close:hover { background: var(--paper); color: var(--ink-900); }
+.quote-dialog-close svg { width: 20px; height: 20px; }
+
+.quote-dialog-body { padding: 1.5rem 2rem 2rem; }
+
+.qf-row { margin-bottom: 1.1rem; }
+.qf-row label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-600);
+  margin-bottom: 0.4rem;
+  font-family: var(--font-mono);
+}
+.qf-row input,
+.qf-row textarea,
+.qf-row select {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--ink-200);
+  border-radius: 6px;
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  color: var(--ink-900);
+  background: var(--white);
+  transition: border-color var(--t) var(--ease), box-shadow var(--t) var(--ease);
+  box-sizing: border-box;
+}
+.qf-row input:focus,
+.qf-row textarea:focus,
+.qf-row select:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(var(--accent-rgb, 220,38,38),0.12);
+}
+.qf-row input.invalid,
+.qf-row textarea.invalid,
+.qf-row select.invalid {
+  border-color: #e53e3e;
+}
+.qf-row textarea { resize: vertical; min-height: 80px; }
+
+.qf-actions { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+.qf-actions .btn { width: 100%; justify-content: center; }
+
+.qf-feedback {
+  display: none;
+  margin-top: 1rem;
+  padding: 0.9rem 1rem;
+  border-radius: 7px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.qf-feedback.show { display: block; }
+.qf-feedback.success {
+  background: #f0fdf4;
+  color: #166534;
+  border: 1px solid #bbf7d0;
+}
+.qf-feedback.error {
+  background: #fef2f2;
+  color: #991b1b;
+  border: 1px solid #fecaca;
+}
+
+@media (max-width: 480px) {
+  .quote-dialog-header { padding: 1.5rem 1.25rem 0; }
+  .quote-dialog-body  { padding: 1.25rem 1.25rem 1.5rem; }
+}
+
 /* Mission & vision ------------------------------------------------------- */
 .mv-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-top: 1px solid var(--line-dark); }
 .mv-col { padding: 2.5rem 3rem 0 0; }
